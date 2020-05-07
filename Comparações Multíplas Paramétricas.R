@@ -1,6 +1,7 @@
 # Pacotes usados aqui
 install.packages('car')
 install.packages('sciplot')
+install.packages('agricolae')
 
 data("PlantGrowth")
 dados <- PlantGrowth
