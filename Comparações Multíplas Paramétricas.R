@@ -35,6 +35,18 @@ plot(anova)
 library(car)
 leveneTest(anova)
 
+# Caso quiser visualizar o boxplot
+boxplot(weight ~ group, data=dados)
+
+### Multiple Comparisons
+
+# Pela anova vimos que os grupos diferem, porém não sabemos quais dos grupos direriram entre sí. Há vários testes para comparar as médias dos tratamentos, aqui veremos alguns:
+
+#tukey test with agricolae package
+library(agricolae)
+tukey.test <- HSD.test(anova, trt = 'group')
+tukey.test
+
 # Fazer o gráfico de barras já com a barra de erro do desvio padrão
 library(sciplot)
 bargraph.CI(x.factor = factor(group), response = weight, data = data,
