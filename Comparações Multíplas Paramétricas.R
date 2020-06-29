@@ -7,9 +7,9 @@ data("PlantGrowth")
 dados <- PlantGrowth
 
 
-# Analise de Variância(ANOVA)
+### Analise de Variância(ANOVA)
 
-# ANOVA para a variável resposta "response"
+# ANOVA para a variável resposta "weight"
 anova <- aov(weight ~ group, data = dados)
 # Ver o resumo da ANOVA
 summary(anova)
@@ -26,11 +26,12 @@ hist(resid(anova))
 qqnorm(resid(anova))
 qqline(resid(anova))
 
-# Bartlett test of homogeneity of variances
-bartlett.test(residuals(anova) ~ dados$group)
 # análise gráfica dos resíduos
 par(mfrow=c(2,2))
 plot(anova)
+
+# Bartlett test of homogeneity of variances
+bartlett.test(residuals(anova) ~ dados$group)
 
 # Levene Test of homogeneity of variances (Outro teste de homocedasticidade)
 library(car)
