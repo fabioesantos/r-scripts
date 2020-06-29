@@ -2,6 +2,8 @@
 install.packages('car')
 install.packages('sciplot')
 install.packages('agricolae')
+install.packages('ScottKnott')
+install.packages('multcomp')
 
 data("PlantGrowth")
 dados <- PlantGrowth
@@ -44,14 +46,25 @@ boxplot(weight ~ group, data=dados)
 
 # Pela anova vimos que os grupos diferem, porém não sabemos quais dos grupos direriram entre sí. Há vários testes para comparar as médias dos tratamentos, aqui veremos alguns:
 
-#tukey test with agricolae package
+#Teste de Tukey
 library(agricolae)
 tukey.test <- HSD.test(anova, trt = 'group')
 tukey.test
 
+
+#Test de Scott-Knoot para agrupamento de médias
+require(ScottKnott)
+sk <- SK(anova, sig.level = 0.05)
+summary(sk)
+
+#Teste de Dunnet (diferente dos demais esse test não compara todos os grupos entre si, ele compara um grupo controle com os demais. Logo esse teste se aplica quando se tem um grupo controle e vc quer saber apenas quais grupos diferiram do grupo controle)
+require(multcomp)
+duntest <- glht(anova, linfct = mcp(group = "Dunnett"))
+summary(duntest)
+
 # Fazer o gráfico de barras já com a barra de erro do desvio padrão
 library(sciplot)
-bargraph.CI(x.factor = factor(group), response = weight, data = data,
+bargraph.CI(x.factor = factor(group), response = weight, data = dados,
             main = "Plant Growth", xlab = "Group",
             ylab = "Weight", col = "grey",  legend = TRUE)
 
